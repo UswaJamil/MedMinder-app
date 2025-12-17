@@ -22,31 +22,49 @@ export async function registerForNotifications() {
   }
 }
 
-export async function scheduleMedicineReminder({
+/* ✅ DAILY REPEATING REMINDER */
+export async function scheduleDailyReminder({
   medicineName,
-  time,
+  hour,
+  minute,
 }: {
   medicineName: string;
-  time: string; // "09:00"
+  hour: number;
+  minute: number;
 }) {
-  const [hour, minute] = time.split(":").map(Number);
-
-  const trigger = new Date();
-  trigger.setHours(hour);
-  trigger.setMinutes(minute);
-  trigger.setSeconds(0);
-
-  if (trigger < new Date()) {
-    trigger.setDate(trigger.getDate() + 1);
-  }
-
   return await Notifications.scheduleNotificationAsync({
     content: {
       title: "Medication Reminder 💊",
       body: `Time to take ${medicineName}`,
       sound: "default",
+      channelId: "med-reminders",
     },
-    trigger,
+    trigger: {
+      hour,
+      minute,
+      repeats: true, // ✅ THIS IS THE KEY
+    },
+  });
+}
+
+/* ✅ INTERVAL REMINDER */
+export async function scheduleIntervalReminder({
+  medicineName,
+  intervalHours,
+}: {
+  medicineName: string;
+  intervalHours: number;
+}) {
+  return await Notifications.scheduleNotificationAsync({
+    content: {
+      title: "Medication Reminder 💊",
+      body: `Time to take ${medicineName}`,
+      channelId: "med-reminders",
+    },
+    trigger: {
+      seconds: intervalHours * 3600,
+      repeats: true,
+    },
   });
 }
 

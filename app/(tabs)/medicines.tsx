@@ -60,15 +60,12 @@ export default function MyMedicationsScreen() {
     const schedule = item?.schedules?.[0];
     const firstDose = schedule?.times_with_dose?.[0];
 
-    // ✅ TIME
     const time = firstDose?.time ?? "--:--";
 
-    // ✅ DOSE
     const doseText = firstDose
       ? `${firstDose.dose} ${firstDose.unit}`
       : null;
 
-    // ✅ SECOND LINE: strength OR frequency
     const secondaryText =
       item.strength ||
       formatFrequency(schedule);
@@ -154,16 +151,9 @@ export default function MyMedicationsScreen() {
 
   return (
     <View style={styles.root}>
-      <View style={styles.logoWrap}>
-        <Image
-          source={require("../../assets/icons/pill.png")}
-          style={{ width: 22, height: 22 }}
-        />
-        <Text style={styles.logoText}>MedMinder</Text>
-      </View>
-
       <Text style={styles.title}>My Medications</Text>
 
+      {/* TABS */}
       <View style={styles.tabRow}>
         {(["active", "paused", "archived"] as TabType[]).map((t) => (
           <TouchableOpacity
@@ -187,10 +177,16 @@ export default function MyMedicationsScreen() {
         ))}
       </View>
 
+      {/* ✅ DATE STRIP (FIGMA MATCH) */}
+      <DateStrip
+        selectedDate={selectedDate}
+        onSelect={setSelectedDate}
+      />
+
       {filteredMeds.length === 0 ? (
         <View style={styles.emptyWrap}>
           <Image
-            source={require("../../assets/icons/pill.png")}
+            source={require("../../assets/icons/mymedpill.png")}
             style={styles.emptyImg}
           />
           <Text style={styles.emptyText}>Nothing here</Text>
@@ -210,41 +206,42 @@ export default function MyMedicationsScreen() {
 /* ---------------- STYLES (UNCHANGED) ---------------- */
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: "#fff", padding: 20 },
-  logoWrap: { alignItems: "center", marginBottom: 6 },
-  logoText: { color: "#30CFCF", fontWeight: "700", marginTop: 2 },
-  title: { fontSize: 26, fontWeight: "800", marginVertical: 12 },
-  tabRow: { flexDirection: "row", marginBottom: 16 },
+
+  title: { fontSize: 29, fontWeight: "700", marginVertical: 40 },
+  tabRow: { flexDirection: "row", marginBottom: 20 },
   tabBtn: {
-    backgroundColor: "#F2F4F6",
+    backgroundColor: "#FBFBFB",
     paddingVertical: 10,
-    paddingHorizontal: 16,
-    borderRadius: 14,
+    paddingHorizontal: 10,
+    borderRadius: 7,
     marginRight: 10,
   },
-  tabActive: { backgroundColor: "#30CFCF" },
+  tabActive: { backgroundColor: "#FBFBFB" },
   tabText: { fontWeight: "700", color: "#444" },
-  tabTextActive: { color: "#fff" },
-  emptyWrap: { alignItems: "center", marginTop: 80 },
-  emptyImg: { width: 120, height: 120, resizeMode: "contain", opacity: 0.6 },
-  emptyText: { fontSize: 18, fontWeight: "700", marginTop: 16 },
+  tabTextActive: { color: "#3ACCCB" },
+  emptyWrap: { alignItems: "center", marginTop: 148 },
+  emptyImg: { width: 82, height: 82, resizeMode: "contain", opacity: 0.8 },
+  emptyText: { fontSize: 29, fontWeight: "700", marginTop: 16 },
   medCard: {
-    backgroundColor: "#F9FDFD",
+    backgroundColor: "#FFFFFF",
     borderRadius: 14,
-    padding: 16,
-    marginBottom: 14,
+    
+    padding: 11,
+    
+    marginTop: 27,
   },
   topRow: { flexDirection: "row", justifyContent: "space-between" },
   leftRow: { flexDirection: "row", flex: 1 },
-  dot: { width: 12, height: 12, borderRadius: 6, marginRight: 12, marginTop: 6 },
-  medName: { fontSize: 16, fontWeight: "700" },
-  medSub: { fontSize: 13, color: "#777", marginTop: 4 },
+  dot: { width: 25, height: 25, borderRadius: 13, marginRight: 8, marginTop: 8 },
+  medName: { fontSize: 15, fontWeight: "700" },
+  medSub: { fontSize: 13, color: "#777", marginTop: 1},
   timeBadge: {
-    backgroundColor: "#E8FBFA",
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 10,
+    backgroundColor: "#3ACCCB",
+    paddingVertical: 10,
+    paddingHorizontal: 17,
+    borderRadius: 7,
   },
-  timeText: { color: "#14B8A6", fontWeight: "700" },
+  timeText: { color: "#fff", fontWeight: "700" },
   actionRow: { flexDirection: "row", marginTop: 14 },
   pauseBtn: {
     backgroundColor: "#EEF1F4",

@@ -97,20 +97,22 @@ export default function Step1Screen() {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#F7F7F7",
     padding: 20,
   },
 
   title: {
-    fontSize: 24,
+    fontSize: 30,
     fontWeight: "700",
-    marginBottom: 16,
+    marginBottom: 38,
+    marginTop: 90,
   },
 
   sectionLabel: {
-    fontWeight: "600",
-    color: "#444",
-    marginBottom: 12,
+    fontSize: 19,
+    fontWeight: "700",
+    color: "#404040",
+    marginBottom: 28,
   },
 
   grid: {
@@ -123,12 +125,12 @@ const styles = StyleSheet.create({
   typeItem: {
     width: "30%",
     alignItems: "center",
-    marginBottom: 16,
+    marginBottom: 22,
   },
 
   iconCircle: {
-    width: 56,
-    height: 56,
+    width: 58,
+    height: 58,
     borderRadius: 28,
     backgroundColor: "#F2F2F2",
     justifyContent: "center",
@@ -143,8 +145,8 @@ const styles = StyleSheet.create({
   },
 
   icon: {
-    width: 26,
-    height: 26,
+    width: 28,
+    height: 28,
     resizeMode: "contain",
   },
 

@@ -1,3 +1,4 @@
+
 import * as ImagePicker from "expo-image-picker";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import React, { useMemo, useState } from "react";
@@ -168,9 +169,9 @@ export default function ReviewScreen() {
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <ScrollView contentContainerStyle={styles.root}>
         {/* HEADER */}
-        <View style={styles.headerRow}>
+        <View style={styles.header}>
           <Text style={styles.title}>Review details</Text>
-          <Image source={require("../../assets/logo.png")} style={styles.logoSmall} />
+          
         </View>
 
         {/* SCHEDULING */}
@@ -255,16 +256,16 @@ export default function ReviewScreen() {
 /* ---------------- STYLES (UNCHANGED) ---------------- */
 const styles = StyleSheet.create({
   root: { padding: 18, paddingBottom: 60 },
-  headerRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
-  logoSmall: { width: 48, height: 18 },
-  title: { fontSize: 18, fontWeight: "700" },
+  header: {  justifyContent: "center", alignItems: "center" },
+  
+  title: { fontSize: 22, fontWeight: "400",  marginTop: 22, marginBottom: 11 },
 
-  card: { backgroundColor: "#F8F9FA", borderRadius: 12, padding: 12, marginTop: 12 },
+  card: {  borderRadius: 12, padding: 12, marginTop: 12 },
   cardHeader: { flexDirection: "row", justifyContent: "space-between" },
-  cardTitle: { fontSize: 16, fontWeight: "700" },
+  cardTitle: { fontSize: 19, fontWeight: "700" },
   link: { color: "#58B0D2", fontSize: 13 },
 
-  scheduleBox: { marginTop: 10, backgroundColor: "#fff", padding: 12, borderRadius: 8 },
+  scheduleBox: { marginTop: 10, backgroundColor: "#F7F7F7", padding: 12, borderRadius: 8 },
   small: { fontSize: 13, color: "#666" },
 
   photoArea: {

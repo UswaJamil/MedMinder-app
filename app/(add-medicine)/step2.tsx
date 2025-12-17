@@ -23,7 +23,7 @@ const WatchIcon = require("../../assets/icons/watch.png");
 /* ---------------- OPTIONS ---------------- */
 const frequencyOptions = [
   { label: "Daily", value: "daily" },
-  { label: "Every X hours", value: "every_x_hours" },
+  { label: "Every X hours", value: "interval" }, // ✅ FIX
   { label: "Weekly", value: "weekly" },
   { label: "Custom", value: "custom" },
 ];
@@ -265,30 +265,31 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   title: {
+    marginTop: 63,
     fontWeight: "700",
-    fontSize: 22,
-    marginBottom: 4,
-    color: "#000",
+    fontSize: 30,
+    marginBottom: 18,
+    color: "#3C3C3C",
   },
   medicineName: {
-    fontSize: 16,
+    fontSize: 13,
     color: "#555",
-    marginBottom: 24,
+    marginBottom: 41,
   },
   dateRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginBottom: 24,
+    marginBottom: 17,
   },
   dateInput: {
     flex: 1,
     borderWidth: 1,
-    borderColor: "#E0E0E0",
+    borderColor: "#E7E7E7",
     borderRadius: 10,
     paddingVertical: Platform.OS === "ios" ? 14 : 10,
     paddingHorizontal: 16,
     marginRight: 12,
-    backgroundColor: "#FAFAFA",
+    backgroundColor: "#F6F6F6",
   },
   dateText: {
     fontSize: 16,
@@ -302,70 +303,71 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 16,
+    backgroundColor: "#F6F6F6",
+    borderRadius: 10,
   },
   timeInput: {
     flex: 1,
     borderWidth: 1,
-    borderColor: "#E0E0E0",
-    borderRadius: 10,
+    borderColor: "#E7E7E7",
+    borderRadius: 6,
     paddingVertical: Platform.OS === "ios" ? 14 : 10,
-    paddingHorizontal: 12,
-    marginRight: 10,
-    backgroundColor: "#FAFAFA",
+    paddingHorizontal: 5,
+    
+    backgroundColor: "#F6F6F6",
     justifyContent: "center",
   },
   timeText: {
     fontSize: 16,
     color: "#000",
+    paddingLeft: 18,
+    paddingBottom: 5,
   },
   doseInput: {
     width: 60,
     borderWidth: 1,
-    borderColor: "#E0E0E0",
-    borderRadius: 10,
-    marginRight: 10,
+    borderColor: "#E7E7E7",
+    borderRadius: 6,
+    
     textAlign: "center",
     paddingVertical: Platform.OS === "ios" ? 14 : 10,
     fontSize: 16,
     color: "#000",
-    backgroundColor: "#FAFAFA",
+    backgroundColor: "#F6F6F6",
   },
   unitPickerWrapper: {
     width: 110,
     marginRight: 10,
   },
-  removeText: {
-    color: "#FF3B30",
-    fontWeight: "600",
-    fontSize: 14,
-  },
+
 
   addTimeBtn: {
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "#30CFCF",
-    borderRadius: 30,
+    borderColor: "#ECECEC",
+    borderRadius: 6,
     paddingVertical: 14,
-    marginTop: 24,
+    
+    
     justifyContent: "center",
-    backgroundColor: "#E0F7F7",
+    backgroundColor: "#FEFEFE",
+    
   },
   watchIcon: {
-    width: 20,
-    height: 20,
+    width: 21,
+    height: 23,
     marginRight: 8,
-    tintColor: "#30CFCF",
   },
   addTimeText: {
-    color: "#30CFCF",
+    color: "#505050",
     fontWeight: "700",
     fontSize: 16,
   },
 
   nextBtn: {
     backgroundColor: "#30CFCF",
-    borderRadius: 30,
+    borderRadius: 5,
     paddingVertical: 16,
     marginTop: 32,
     marginBottom: 16,

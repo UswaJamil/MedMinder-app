@@ -29,7 +29,7 @@ export default function IntakeProgress({
         <View style={styles.circle}>
           {/* PILL IMAGE */}
           <Image
-            source={require("../../assets/icons/pill.png")}
+            source={require("../../assets/icons/intake-pill.png")}
             style={styles.pillImage}
           />
 
@@ -55,9 +55,10 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontSize: 18,
+    fontSize: 28,
     fontWeight: "700",
-    marginBottom: 8,
+    marginBottom: 50,
+    marginTop: 38,
     color: "#333",
   },
 
@@ -66,33 +67,34 @@ const styles = StyleSheet.create({
   },
 
   circle: {
-    width: 140,
-    height: 140,
-    borderRadius: 70,
+    width: 230,
+    height: 230,
+    borderRadius: 115,
     borderWidth: 12,
     borderColor: "#E6FBF9",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: "#E6FBF9",
   },
 
   pillImage: {
-    width: 26,
-    height: 26,
+    width: 50,
+    height: 50,
     resizeMode: "contain",
-    marginBottom: 6,
+    marginBottom: 10,
+    
   },
 
   circleMain: {
-    fontSize: 22,
+    fontSize: 40,
     fontWeight: "700",
-    color: "#2E2E2E",
+    color: "#78D1D3",
   },
 
   dayInside: {
-    marginTop: 4,
-    fontSize: 13,
-    color: "#9C9D9D",
-    fontWeight: "500",
+    marginTop: 30,
+    fontSize: 15,
+    color: "#B8B8B8",
+    fontWeight: "700",
   },
 });

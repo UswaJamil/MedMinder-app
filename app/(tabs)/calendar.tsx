@@ -115,8 +115,19 @@ export default function CalendarScreen() {
         </View>
       ) : (
         <>
-          {/* ✅ INTAKES CIRCLE (FIGMA MATCH) */}
-          <IntakeProgress taken={taken} total={total} />
+         {/* INTAKES + ADD BUTTON */}
+<View style={styles.intakeRow}>
+  <IntakeProgress taken={taken} total={total} />
+
+  <TouchableOpacity
+    style={styles.addCircleBtn}
+    onPress={() => router.push("/(add-medicine)/step1")}
+  >
+    <Text style={styles.addCircleText}>+</Text>
+  </TouchableOpacity>
+</View>
+
+          
 
           {/* MED LIST */}
           <FlatList
@@ -239,9 +250,10 @@ const styles = StyleSheet.create({
   medCard: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#F9FDFD",
+    backgroundColor: "#FFFFFF",
     padding: 14,
     borderRadius: 12,
+    
     marginBottom: 12,
   },
   medDot: {
@@ -261,14 +273,41 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   timeBadge: {
-    backgroundColor: "#E8FBFA",
+    backgroundColor: "#3ACCCB",
     paddingVertical: 6,
-    paddingHorizontal: 10,
-    borderRadius: 8,
+    paddingHorizontal: 8,
+    borderRadius: 4,
   },
   timeText: {
-    color: "#0FAFA9",
+    color: "#FFFFFF",
+
     fontWeight: "700",
-    fontSize: 14,
+    fontSize: 15,
   },
+  intakeRow: {
+  flexDirection: "row",
+  justifyContent: "center",
+  alignItems: "center",
+  marginTop: 8,
+  marginBottom: 12,
+},
+
+addCircleBtn: {
+  width: 48,
+  height: 49,
+  borderRadius: 24,
+  backgroundColor: "#3ACCCB",
+  justifyContent:"flex-end",
+  alignItems: "center",
+  marginLeft: 22,
+  marginTop: 310,
+},
+
+addCircleText: {
+  color: "#fff",
+  fontSize: 28,
+  fontWeight: "600",
+  marginBottom: 6,
+},
+
 });

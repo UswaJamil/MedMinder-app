@@ -9,16 +9,10 @@ export default function SettingsScreen() {
   return (
     <View style={styles.root}>
       {/* HEADER */}
-      <View style={styles.headerRow}>
+      <View style={styles.header}>
         <Text style={styles.title}>Settings</Text>
 
-        <View style={styles.headerRight}>
-          <Image
-            source={require("../../assets/icons/logo-pill.png")}
-            style={styles.logoPill}
-          />
-          <Text style={styles.logoText}>MedMinder</Text>
-        </View>
+      
       </View>
 
       {/* PROFILE CARD */}
@@ -88,22 +82,14 @@ export default function SettingsScreen() {
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: "#F7F9FB", padding: 20 },
 
-  headerRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+  header: {
+   marginTop: 50,
     marginBottom: 18,
   },
 
-  title: { fontSize: 24, fontWeight: "700" },
+  title: { fontSize: 38, fontWeight: "700" },
 
-  headerRight: { flexDirection: "row", alignItems: "center" },
-  logoPill: { width: 22, height: 22 },
-  logoText: {
-    marginLeft: 6,
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#30CFCF",
-  },
+ 
 
   /* Profile Card */
   profileCard: {

@@ -1,35 +1,141 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import { Tabs, useRouter } from "expo-router";
+import { Image, StyleSheet } from "react-native";
+import { useEffect } from "react";
+import { supabase } from "@/lib/supabase";
+import { registerForNotifications } from "../../src/utils/notification";
 
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+export default function TabsLayout() {
+  const router = useRouter();
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  // 🔔 Request notification permission (once)
+  useEffect(() => {
+    registerForNotifications().catch(console.warn);
+  }, []);
+
+  // 🔐 Auth guard – handle deleted / invalid user
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data, error } = await supabase.auth.getUser();
+
+      if (error?.message?.includes("User not found") || !data?.user) {
+        await supabase.auth.signOut();
+        router.replace("/(auth)/login");
+      }
+    };
+
+    checkSession();
+  }, []);
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
+        tabBarActiveTintColor: "#30CFCF",
+        tabBarInactiveTintColor: "#999",
+        tabBarStyle: {
+          backgroundColor: "#ffffff",
+          borderTopWidth: 1,
+          borderTopColor: "#e0e0e0",
+          height: 100,
+          paddingBottom: 30,
+          paddingTop: 10,
+        },
+        tabBarItemStyle: {
+          paddingVertical: 5,
+        },
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontWeight: "600",
+          marginBottom: 4,
+        },
+      }}
+    >
+      {/* Calendar Tab */}
       <Tabs.Screen
-        name="index"
+        name="calendar"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: "Calendar",
+          tabBarIcon: ({ focused }) => (
+            <Image
+              source={
+                focused
+                  ? require("../../assets/icons/calendar-active.png")
+                  : require("../../assets/icons/calendar.png")
+              }
+              style={styles.icon}
+            />
+          ),
         }}
       />
+
+      {/* My Meds Tab */}
       <Tabs.Screen
-        name="explore"
+        name="medicines"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: "My Meds",
+          tabBarIcon: ({ focused }) => (
+            <Image
+              source={
+                focused
+                  ? require("../../assets/icons/pill-active.png")
+                  : require("../../assets/icons/pill.png")
+              }
+              style={styles.icon}
+            />
+          ),
+        }}
+      />
+
+      {/* Center Add Button */}
+      <Tabs.Screen
+        name="add"
+        options={{
+          title: "Add",
+          tabBarIcon: () => (
+            <Image
+              source={require("../../assets/icons/plus-active.png")}
+              style={[styles.icon, styles.plusIcon]}
+            />
+          ),
+        }}
+        listeners={{
+          tabPress: (e) => {
+            e.preventDefault();
+            router.push("/(add-medicine)/step1");
+          },
+        }}
+      />
+
+      {/* Settings Tab */}
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: "Settings",
+          tabBarIcon: ({ focused }) => (
+            <Image
+              source={
+                focused
+                  ? require("../../assets/icons/settings-active.png")
+                  : require("../../assets/icons/settings.png")
+              }
+              style={styles.icon}
+            />
+          ),
         }}
       />
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  icon: {
+    width: 26,
+    height: 26,
+  },
+  plusIcon: {
+    width: 36,
+    height: 36,
+    
+    tintColor: "#30CFCF",
+  },
+});

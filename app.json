@@ -3,6 +3,14 @@
     "name": "MedMinder-app",
     "slug": "MedMinder-app",
     "version": "1.0.0",
+    "extra": {
+      "SUPABASE_URL": "https://kkbuomthirpqhvbubqwp.supabase.co",
+      "SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtrYnVvbXRoaXJwcWh2YnVicXdwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3ODA5NDgsImV4cCI6MjA4MDM1Njk0OH0.vKwKy4BbumGDw8ILjOU3wsjwSTaHZXpJoSqXb41BZx8",
+      "router": {},
+      "eas": {
+        "projectId": "8dac6080-ad30-4f9a-9d07-ca17c7438a7f"
+      }
+    },
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "medminderapp",
@@ -19,7 +27,8 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.uswajamil.MedMinderapp"
     },
     "web": {
       "output": "static",
@@ -38,7 +47,9 @@
             "backgroundColor": "#000000"
           }
         }
-      ]
+      ],
+      "expo-font",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true,

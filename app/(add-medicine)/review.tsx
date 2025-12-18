@@ -1,3 +1,7 @@
+import {
+  scheduleDailyReminder,
+  scheduleIntervalReminder,
+} from "@/src/utils/notification";
 
 import * as ImagePicker from "expo-image-picker";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -113,20 +117,42 @@ export default function ReviewScreen() {
 
       if (medError) throw medError;
 
-      const { error: schedError } = await supabase.from("schedules").insert({
-        medicine_id: medData.id,
-        schedule_type: schedule.frequency,
-        start_date: schedule.start_date,
-        end_date: schedule.end_date,
-        times_with_dose: schedule.times_with_dose,
-        interval_hours: schedule.intervalHours || null,
-        weekdays: schedule.weeklyDays || [],
-      });
+     const { error: schedError } = await supabase.from("schedules").insert({
+  medicine_id: medData.id,
+  schedule_type: schedule.frequency,
+  start_date: schedule.start_date,
+  end_date: schedule.end_date,
+  times_with_dose: schedule.times_with_dose,
+  interval_hours: schedule.intervalHours || null,
+  weekdays: schedule.weeklyDays || [],
+});
 
-      if (schedError) throw schedError;
+if (schedError) throw schedError;
 
-      Alert.alert("Success", "Medication saved");
-      router.replace("/(tabs)/medicines");
+/* 🔔 SCHEDULE NOTIFICATIONS — ADD THIS */
+if (schedule.frequency === "daily") {
+  for (const t of schedule.times_with_dose) {
+    const [hour, minute] = t.time.split(":").map(Number);
+
+    await scheduleDailyReminder({
+      medicineName: medData.name,
+      hour,
+      minute,
+    });
+  }
+}
+
+if (schedule.frequency === "interval") {
+  await scheduleIntervalReminder({
+    medicineName: medData.name,
+    intervalHours: schedule.intervalHours,
+  });
+}
+
+/* ✅ THEN CONTINUE */
+Alert.alert("Success", "Medication saved");
+router.replace("/(tabs)/medicines");
+
     } catch (err: any) {
       Alert.alert("Save failed", err.message);
     } finally {

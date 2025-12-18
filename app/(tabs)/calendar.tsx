@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     paddingHorizontal: 20,
-    paddingTop: 52,
+    paddingTop: 17,
   },
 
   headerRow: {
@@ -288,8 +288,8 @@ const styles = StyleSheet.create({
   flexDirection: "row",
   justifyContent: "center",
   alignItems: "center",
-  marginTop: 8,
-  marginBottom: 12,
+  marginTop: 5,
+  marginBottom: 6,
 },
 
 addCircleBtn: {

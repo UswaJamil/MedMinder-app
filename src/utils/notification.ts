@@ -1,6 +1,9 @@
 import * as Notifications from "expo-notifications";
 import { Platform } from "react-native";
 
+/* --------------------------------------------------
+   REGISTER & PERMISSIONS
+-------------------------------------------------- */
 export async function registerForNotifications() {
   const { status } = await Notifications.getPermissionsAsync();
 
@@ -22,7 +25,9 @@ export async function registerForNotifications() {
   }
 }
 
-/* ✅ DAILY REPEATING REMINDER */
+/* --------------------------------------------------
+   DAILY REPEATING REMINDER
+-------------------------------------------------- */
 export async function scheduleDailyReminder({
   medicineName,
   hour,
@@ -37,17 +42,19 @@ export async function scheduleDailyReminder({
       title: "Medication Reminder 💊",
       body: `Time to take ${medicineName}`,
       sound: "default",
-      channelId: "med-reminders",
+      channelId: "med-reminders", // ✅ NO RED LINE
     },
     trigger: {
+      type: "daily", // ✅ STRING TYPE (FIX)
       hour,
       minute,
-      repeats: true, // ✅ THIS IS THE KEY
     },
   });
 }
 
-/* ✅ INTERVAL REMINDER */
+/* --------------------------------------------------
+   INTERVAL (EVERY X HOURS) REMINDER
+-------------------------------------------------- */
 export async function scheduleIntervalReminder({
   medicineName,
   intervalHours,
@@ -59,15 +66,20 @@ export async function scheduleIntervalReminder({
     content: {
       title: "Medication Reminder 💊",
       body: `Time to take ${medicineName}`,
+      sound: "default",
       channelId: "med-reminders",
     },
     trigger: {
+      type: "timeInterval", // ✅ STRING TYPE (FIX)
       seconds: intervalHours * 3600,
       repeats: true,
     },
   });
 }
 
+/* --------------------------------------------------
+   CANCEL NOTIFICATIONS
+-------------------------------------------------- */
 export async function cancelMedicineNotifications(ids: string[]) {
   for (const id of ids) {
     await Notifications.cancelScheduledNotificationAsync(id);

@@ -205,9 +205,9 @@ export default function MyMedicationsScreen() {
 
 /* ---------------- STYLES (UNCHANGED) ---------------- */
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: "#fff", padding: 20 },
+  root: { flex: 1, backgroundColor: "#fff", paddingHorizontal: 20 },
 
-  title: { fontSize: 29, fontWeight: "700", marginVertical: 40 },
+  title: { fontSize: 29, fontWeight: "700", marginVertical: 32 },
   tabRow: { flexDirection: "row", marginBottom: 20 },
   tabBtn: {
     backgroundColor: "#FBFBFB",

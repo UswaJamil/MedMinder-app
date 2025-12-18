@@ -80,10 +80,10 @@ export default function SettingsScreen() {
 }
 
 const styles = StyleSheet.create({
-  root: { flex: 1, backgroundColor: "#F7F9FB", padding: 20 },
+  root: { flex: 1, backgroundColor: "#FFFFFF", paddingHorizontal: 20 },
 
   header: {
-   marginTop: 50,
+   marginTop: 26,
     marginBottom: 18,
   },
 

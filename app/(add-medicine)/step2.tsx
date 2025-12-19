@@ -8,7 +8,6 @@ import {
   ScrollView,
   Platform,
   Image,
-  Alert,
   KeyboardAvoidingView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -65,7 +64,7 @@ export default function Step2Screen() {
     useState<number | null>(null);
 
   const [frequency, setFrequency] = useState<string>("");
-  const [intervalHours, setIntervalHours] = useState(8);
+  const [intervalHours] = useState(8);
 
   const [times, setTimes] = useState([
     { time: null as Date | null, dose: "", unit: "" },

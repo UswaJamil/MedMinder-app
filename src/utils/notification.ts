@@ -38,8 +38,8 @@ export async function registerForNotifications(): Promise<boolean> {
         sound: "default",
         vibrationPattern: [0, 250, 250, 250],
       });
-    } catch (e) {
-      console.warn("Failed to create notification channel:", e);
+    } catch {
+      // channel creation failed; ignore silently
     }
   }
 
@@ -86,8 +86,8 @@ export async function scheduleDailyReminder({ medicineName, hour, minute, startD
     });
 
     return id;
-  } catch (e) {
-    console.warn("scheduleDailyReminder failed, falling back to date trigger:", e);
+  } catch {
+    // falling back to date trigger on schedule failure
     // Fallback: schedule next occurrence as a Date trigger
     const next = computeNextDateForTime(hour, minute, startDate);
     const fallbackTrigger: any = { type: "date", date: next };
@@ -146,6 +146,20 @@ export async function scheduleIntervalReminder({ medicineName, intervalHours, st
   }
 
   return ids;
+}
+
+/* ✅ NEW: Cancel notifications by ID(s) */
+export async function cancelNotifications(notificationIds: string[] | string) {
+  try {
+    const ids = Array.isArray(notificationIds) ? notificationIds : [notificationIds];
+    for (const id of ids) {
+      if (id) {
+        await Notifications.cancelScheduledNotificationAsync(id);
+      }
+    }
+  } catch {
+    // ignore cancellation errors
+  }
 }
 
 export default {

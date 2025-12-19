@@ -130,32 +130,47 @@ export default function ReviewScreen() {
 
 if (schedError) throw schedError;
 
-      // Schedule local notifications AFTER successful DB save (won't affect save on failure)
+      // Schedule local notifications AFTER successful DB save and collect IDs
       try {
+        const notificationIds: string[] = [];
         if (schedule.frequency === "daily") {
           for (const t of schedule.times_with_dose || []) {
             const [hh, mm] = (t.time || "00:00").split(":");
             const hour = parseInt(hh, 10);
             const minute = parseInt(mm, 10);
-            await scheduleDailyReminder({
+            const id = await scheduleDailyReminder({
               medicineName: medName,
               hour,
               minute,
               startDate: schedule.start_date,
               endDate: schedule.end_date,
             });
+            if (id) notificationIds.push(id);
           }
         } else if (schedule.frequency === "interval") {
           const interval = Number(schedule.intervalHours) || 8;
-          await scheduleIntervalReminder({
+          const ids = await scheduleIntervalReminder({
             medicineName: medName,
             intervalHours: interval,
             startDate: schedule.start_date,
             endDate: schedule.end_date,
           });
+          if (ids && ids.length) notificationIds.push(...ids);
         }
-      } catch (e) {
-        console.warn("Failed to schedule local notifications:", e);
+
+        // Store notification IDs in the schedule record
+        if (notificationIds.length > 0) {
+          const { error: updateError } = await supabase
+            .from("schedules")
+            .update({ notification_ids: notificationIds })
+            .eq("id", (await supabase.from("schedules").select("id").eq("medicine_id", medData.id)).data?.[0]?.id);
+          
+          if (updateError) {
+            // storing notification IDs failed; ignore to avoid noisy logs
+          }
+        }
+      } catch {
+        // scheduling notifications failed; proceed without logging
       }
 
       /* ✅ THEN CONTINUE */

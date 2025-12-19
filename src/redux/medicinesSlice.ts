@@ -1,6 +1,7 @@
 // src/redux/medicinesSlice.ts
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { supabase } from "@/lib/supabase";
+import { cancelNotifications } from "@/src/utils/notification";
 
 export const fetchMedicines = createAsyncThunk(
   "medicines/fetchAll",
@@ -18,6 +19,30 @@ export const fetchMedicines = createAsyncThunk(
 export const updateMedicineStatus = createAsyncThunk(
   "medicines/updateStatus",
   async ({ id, status }: { id: string; status: string }, thunkAPI) => {
+    // If pausing, cancel any scheduled notifications
+    if (status === "paused") {
+      try {
+        // Fetch the medicine with its schedules to get notification IDs
+        const { data: med, error: fetchError } = await supabase
+          .from("medicines")
+          .select("*, schedules(*)")
+          .eq("id", id)
+          .single();
+
+        if (!fetchError && med?.schedules?.length > 0) {
+          const schedule = med.schedules[0];
+          const notificationIds = schedule.notification_ids || [];
+          
+          // Cancel all notifications for this medicine
+          if (notificationIds.length > 0) {
+            await cancelNotifications(notificationIds);
+          }
+        }
+      } catch {
+        // failed to cancel notifications on pause; ignore to avoid console noise
+      }
+    }
+
     const { error } = await supabase
       .from("medicines")
       .update({ status })

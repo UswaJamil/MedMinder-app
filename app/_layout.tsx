@@ -1,5 +1,5 @@
-import * as Notifications from "expo-notifications";
 import type { NotificationBehavior } from "expo-notifications";
+import * as Notifications from "expo-notifications";
 import { Slot } from "expo-router";
 import { useEffect } from "react";
 import { Provider } from "react-redux";
@@ -20,7 +20,7 @@ Notifications.setNotificationHandler({
 export default function RootLayout() {
   useEffect(() => {
     registerForNotifications().catch((e) =>
-      console.warn("Notification registration failed:", e)
+      null
     );
   }, []);
 

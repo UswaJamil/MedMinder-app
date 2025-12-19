@@ -26,10 +26,7 @@ type SupabaseBaseQueryArgs = {
 type SupabaseError = { message: string };
 
 // Base query result type
-type SupabaseBaseQueryResult = {
-  data?: any;
-  error?: SupabaseError;
-};
+// SupabaseBaseQueryResult type removed (unused)
 
 // -------------------
 //  Base Query

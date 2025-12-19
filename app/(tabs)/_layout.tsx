@@ -4,12 +4,18 @@ import { useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import HeaderLogo from "../components/HeaderLogo";
 
+
+
 export default function TabsLayout() {
   const router = useRouter();
 
+
+
+
+  // 🔐 AUTH GUARD
   useEffect(() => {
     const checkSession = async () => {
-      const { data, error } = await supabase.auth.getUser();
+      const { data } = await supabase.auth.getUser();
       if (!data?.user) {
         await supabase.auth.signOut();
         router.replace("/(auth)/login");
@@ -17,6 +23,7 @@ export default function TabsLayout() {
     };
     checkSession();
   }, []);
+
 
   return (
     <Tabs

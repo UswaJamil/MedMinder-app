@@ -1,7 +1,4 @@
-import {
-  scheduleDailyReminder,
-  scheduleIntervalReminder,
-} from "@/src/utils/notification";
+
 
 import * as ImagePicker from "expo-image-picker";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -19,6 +16,10 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { supabase } from "../../lib/supabase";
+import {
+  scheduleDailyReminder,
+  scheduleIntervalReminder,
+} from "../../src/utils/notification";
 
 /* ---------------- HELPERS ---------------- */
 const monthsShort = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
@@ -129,29 +130,37 @@ export default function ReviewScreen() {
 
 if (schedError) throw schedError;
 
-/* 🔔 SCHEDULE NOTIFICATIONS — ADD THIS */
-if (schedule.frequency === "daily") {
-  for (const t of schedule.times_with_dose) {
-    const [hour, minute] = t.time.split(":").map(Number);
+      // Schedule local notifications AFTER successful DB save (won't affect save on failure)
+      try {
+        if (schedule.frequency === "daily") {
+          for (const t of schedule.times_with_dose || []) {
+            const [hh, mm] = (t.time || "00:00").split(":");
+            const hour = parseInt(hh, 10);
+            const minute = parseInt(mm, 10);
+            await scheduleDailyReminder({
+              medicineName: medName,
+              hour,
+              minute,
+              startDate: schedule.start_date,
+              endDate: schedule.end_date,
+            });
+          }
+        } else if (schedule.frequency === "interval") {
+          const interval = Number(schedule.intervalHours) || 8;
+          await scheduleIntervalReminder({
+            medicineName: medName,
+            intervalHours: interval,
+            startDate: schedule.start_date,
+            endDate: schedule.end_date,
+          });
+        }
+      } catch (e) {
+        console.warn("Failed to schedule local notifications:", e);
+      }
 
-    await scheduleDailyReminder({
-      medicineName: medData.name,
-      hour,
-      minute,
-    });
-  }
-}
-
-if (schedule.frequency === "interval") {
-  await scheduleIntervalReminder({
-    medicineName: medData.name,
-    intervalHours: schedule.intervalHours,
-  });
-}
-
-/* ✅ THEN CONTINUE */
-Alert.alert("Success", "Medication saved");
-router.replace("/(tabs)/medicines");
+      /* ✅ THEN CONTINUE */
+      Alert.alert("Success", "Medication saved");
+      router.replace("/(tabs)/medicines");
 
     } catch (err: any) {
       Alert.alert("Save failed", err.message);
